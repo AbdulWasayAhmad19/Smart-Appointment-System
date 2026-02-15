@@ -1,12 +1,12 @@
 import axios from "axios";
 
-export const API_URL = "http://localhost:5000";
+export const API_URL = "http://localhost:3000";
 
 export async function postRequest<T>(
     endpoint: string,
     data: unknown
 ): Promise<T> {
-    // console.log(`Sending request to: ${API_URL}${endpoint}`);
+    console.log(`Sending request to: ${API_URL}${endpoint}`);
 
     try {
         const response = await axios.post<T>(`${API_URL}${endpoint}`, data, {
@@ -15,7 +15,10 @@ export async function postRequest<T>(
             },
         });
         return response.data;
-    } catch (error) {
+    } catch (error: any) {
+        if (error.response) {
+            console.error("API Error Response:", error.response.data);
+        }
         console.error("API request failed", error);
         throw error;
     }

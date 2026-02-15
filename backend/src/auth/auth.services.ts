@@ -13,9 +13,10 @@ export class AuthService {
     ) { }
 
     async signup(dto: SignupDto) {
+        console.log("ssssssssssssss", dto);
         // Hash password with bcrypt
         const hashedPassword = await bcrypt.hash(dto.password, 10);
-        
+
         try {
             // Create user in PostgreSQL via Prisma
             const user = await this.usersService.create({
@@ -23,7 +24,7 @@ export class AuthService {
                 name: dto.name,
                 password: hashedPassword,
             });
-            
+
             const payload = { userId: user.id, email: user.email };
             return {
                 message: 'User registered successfully',
